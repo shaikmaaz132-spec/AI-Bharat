@@ -79,13 +79,43 @@ export async function chatWithGrounding(
       },
     });
 
-    // Check if query is unrelated to government schemes/governance
-    const nonGovernanceTerms = ['cricket score', 'movie review', 'crypto', 'stock trading', 'video games', 'celebrity'];
+    // 1. Instant Warm Greeting Recognition (Hi, Hello, Namaste, etc.)
+    const trimmed = userQuery.trim().toLowerCase();
+    const greetings = ['hi', 'hello', 'hey', 'namaste', 'namaskar', 'pranam', 'नमस्ते', 'प्रणाम', 'नमस्कार', 'నమస్కారం', 'வணக்கம்', 'নমস্কার', 'सलाम', 'halo'];
+    if (greetings.includes(trimmed)) {
+      const greetingResponses: Record<string, string> = {
+        hi: `नमस्ते! मैं **जन एआई (Jan AI)** हूँ, आपका डिजिटल सरकारी सहायक। 🙏\n\nआप मुझसे किसी भी सरकारी योजना के बारे में पूछ सकते हैं, जैसे:\n- 🌾 **पीएम किसान**: ₹6,000 की वार्षिक सहायता\n- 🏥 **आयुष्मान भारत**: ₹5 लाख तक का निःशुल्क अस्पताल इलाज\n- 🏠 **पीएम आवास योजना**: पक्का मकान निर्माण हेतु अनुदान\n- 👵 **अटल पेंशन योजना**: ₹1,000 से ₹5,000 मासिक पेंशन\n\nआज मैं आपकी क्या सहायता कर सकता हूँ?`,
+        en: `Hello! I am **Jan AI**, your digital public governance assistant. 🙏\n\nYou can ask me about any government welfare program, such as:\n- 🌾 **PM-Kisan**: ₹6,000 annual direct income support\n- 🏥 **Ayushman Bharat**: ₹5,00,000 free hospitalization coverage\n- 🏠 **PMAY Housing**: Financial grant for pucca house construction\n- 👵 **Atal Pension Yojana**: Monthly guaranteed pension up to ₹5,000\n\nHow may I help you today?`,
+        te: `నమస్కారం! నేను **జన్ ఏఐ**, మీ డిజిటల్ ప్రభుత్వ సహాయకుడిని. 🙏\n\nమీరు ఏ సంక్షేమ పథకం గురించైనా నన్ను అడగవచ్చు (పీఎం కిసాన్, ఆయుష్మాన్ భారత్, ఆవాస్ యోజన లేదా పెన్షన్). ఈరోజు నేను మీకు ఎలా సహాయపడగలను?`,
+        ta: `வணக்கம்! நான் **ஜன் ஏஐ**, உங்கள் அரசு நலத்திட்ட வழிகாட்டி. 🙏\n\nஅரசு நலத்திட்டங்கள் (பிஎம் கிசான், ஆயுஷ்மான் பாரத், ஆவாஸ் திட்டம்) குறித்து என்னிடம் கேட்கலாம். இன்று நான் உங்களுக்கு எவ்வாறு உதவட்டும்?`,
+        bn: `নমস্কার! আমি **জন এআই**, আপনার ডিজিটাল সরকারি সহকারী। 🙏\n\nআপনি যেকোনো সরকারি কল্যাণমূলক প্রকল্প (পিএম কিষাণ, আয়ুষ্মান ভারত, আবাস যোজনা) সম্পর্কে আমাকে জিজ্ঞাসা করতে পারেন। আজ আমি আপনাকে কীভাবে সাহায্য করতে পারি?`,
+        mr: `नमस्कार! मी **जन एआय**, आपला डिजिटल शासकीय सहाय्यक. 🙏\n\nआपण कोणत्याही शासकीय योजनेबद्दल (पीएम किसान, आयुष्मान भारत, आवास योजना) मला विचारू शकता. आज मी आपली काय मदत करू?`,
+      };
+
+      return {
+        text: greetingResponses[languageCode] || greetingResponses['hi'],
+        citations: [],
+        grounded: true,
+        isRedirect: false,
+      };
+    }
+
+    // 2. Check if query is unrelated to government schemes/governance or has no matching schemes
+    const nonGovernanceTerms = ['cricket score', 'movie review', 'crypto', 'stock trading', 'video games', 'celebrity', 'hyena', 'joke'];
     const isUnrelated = nonGovernanceTerms.some((t) => userQuery.toLowerCase().includes(t));
 
-    if (isUnrelated && contextSchemes.length === 0) {
+    if ((isUnrelated || contextSchemes.length === 0) && trimmed.length > 0) {
+      const redirectMsg: Record<string, string> = {
+        hi: `नमस्ते! जन एआई (Jan AI) विशेष रूप से भारतीय नागरिकों के लिए सरकारी कल्याणकारी योजनाओं, पेंशन, सब्सिडी, राशन और नागरिक अधिकारों के मार्गदर्शन हेतु समर्पित है।\n\nआपका प्रश्न ("${userQuery}") सार्वजनिक शासन या कल्याणकारी योजनाओं के दायरे में नहीं है। कृपया किसी सरकारी योजना (जैसे: पीएम किसान, आयुष्मान भारत, आवास योजना), दस्तावेज़ या जन शिकायत से संबंधित प्रश्न पूछें।\n\n🏛️ आधिकारिक राष्ट्रीय पोर्टल: https://www.india.gov.in`,
+        en: `Hello! Jan AI is dedicated specifically to Indian citizen welfare schemes, pensions, healthcare subsidies, and civic rights.\n\nYour query ("${userQuery}") is outside the scope of public governance. Please ask about government welfare programs (e.g. PM-Kisan, Ayushman Bharat, PMAY housing), documentation, or grievance redressal.\n\n🏛️ Official National Portal: https://www.india.gov.in`,
+        te: `నమస్కారం! జన్ ఏఐ ప్రభుత్వ సంక్షేమ పథకాలు, పింఛన్లు, ఆరోగ్య భీమా మరియు పౌర హక్కుల సమాచారం కోసం మాత్రమే అంकीతం చేయబడింది.\n\nమీ ప్రశ్న ("${userQuery}") ప్రభుత్వ సేవల పరిధిలో లేదు. దయచేసి సంక్షేమ పథకాల గురించి అడగండి.\n\n🏛️ అధికారిక పోర్టల్: https://www.india.gov.in`,
+        ta: `வணக்கம்! ஜன் ஏஐ அரசு நலத்திட்டங்கள், உதவித்தொகை மற்றும் சட்ட உரிமைகளுக்கான வழிகாட்டி.\n\nஉங்கள் கேள்வி ("${userQuery}") அரசு நலத்திட்டங்களுக்கு அப்பாற்பட்டது. தயவுசெய்து அரசு திட்டங்கள் குறித்து கேளுங்கள்.\n\n🏛️ அதிகாரப்பூர்வ தளம்: https://www.india.gov.in`,
+        bn: `নমস্কার! জন এআই সরকারি কল্যাণমূলক প্রকল্প, পেনশন এবং নাগরিক অধিকার সংক্রান্ত তথ্যের জন্য নিবেদিত।\n\nআপনার প্রশ্নটি ("${userQuery}") সরকারি পরিষেবার আওতাভুক্ত নয়। অনুগ্রহ করে কোনো সরকারি প্রকল্প বা অভিযোগ সংক্রান্ত প্রশ্ন করুন।\n\n🏛️ অফিসিয়াল পোর্টাল: https://www.india.gov.in`,
+        mr: `नमस्कार! जन एआय हे शासकीय योजना, पेन्शन, अनुदान आणि नागरिक हक्कांच्या माहितीसाठी समर्पित आहे.\n\nआपला प्रश्न ("${userQuery}") शासकीय सेवांच्या कार्यक्षेत्राबाहेरील आहे. कृपया शासकीय योजनांविषयी विचारा.\n\n🏛️ अधिकृत पोर्टल: https://www.india.gov.in`,
+      };
+
       return {
-        text: `नमस्ते। जन एआई (Jan AI) विशेष रूप से भारतीय नागरिकों के लिए सरकारी कल्याणकारी योजनाओं, अधिकारों, पेंशन, स्वास्थ्य और सब्सिडी के मार्गदर्शन हेतु समर्पित है। कृपया किसी सरकारी योजना, दस्तावेज़ या शिकायत से संबंधित प्रश्न पूछें।\n\nOfficial Portal: https://www.india.gov.in`,
+        text: redirectMsg[languageCode] || redirectMsg['hi'],
         citations: [],
         grounded: true,
         isRedirect: true,

@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&family=Noto+Sans+Malayalam:wght@400;500;600;700&family=Noto+Sans+Oriya:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-scale: 1;
+  --bharat-saffron: #ff671f;
+  --bharat-green: #046a38;
+  --bharat-navy: #06038d;
+}
+
+/* Script-specific dynamic adjustments */
+html[data-script='devanagari'] {
+  font-family: 'Noto Sans Devanagari', 'Hind', system-ui, sans-serif;
+  --font-scale: 1.08;
+}
+
+html[data-script='telugu'] {
+  font-family: 'Noto Sans Telugu', system-ui, sans-serif;
+  --font-scale: 1.12;
+}
+
+html[data-script='tamil'] {
+  font-family: 'Noto Sans Tamil', system-ui, sans-serif;
+  --font-scale: 1.06;
+}
+
+html[data-script='bengali'] {
+  font-family: 'Noto Sans Bengali', system-ui, sans-serif;
+  --font-scale: 1.1;
+}
+
+html[data-script='kannada'] {
+  font-family: 'Noto Sans Kannada', system-ui, sans-serif;
+  --font-scale: 1.12;
+}
+
+html[data-script='malayalam'] {
+  font-family: 'Noto Sans Malayalam', system-ui, sans-serif;
+  --font-scale: 1.08;
+}
+
+html[data-script='gujarati'] {
+  font-family: 'Noto Sans Gujarati', system-ui, sans-serif;
+  --font-scale: 1.08;
+}
+
+html[data-script='odia'] {
+  font-family: 'Noto Sans Oriya', system-ui, sans-serif;
+  --font-scale: 1.1;
+}
+
+body {
+  font-size: calc(1rem * var(--font-scale, 1));
+  line-height: 1.65;
+  background-color: #fdfbf7;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Relax line height specifically for Indic scripts to prevent clipping of upper/lower matras */
+.vernacular-content {
+  line-height: 1.85 !important;
+}
+
+/* Accessible touch targets for citizens */
+button,
+a,
+input,
+select {
+  touch-action: manipulation;
+}
+
+/* A4 Printable Stylesheet for Grievance & RTI Petitions */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 20mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
+  }
+
+  .no-print,
+  nav,
+  header,
+  footer,
+  .offline-banner,
+  .voice-record-btn {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .a4-document-container {
+    box-shadow: none !important;
+    border: 1px solid #111 !important;
+    padding: 20mm !important;
+    margin: 0 !important;
+    width: 100% !important;
+    page-break-after: always;
+  }
+
+  .a4-title {
+    font-size: 16pt !important;
+    font-weight: bold !important;
+    text-align: center !important;
+    text-decoration: underline !important;
+    margin-bottom: 12pt !important;
+  }
+
+  .a4-side-by-side {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 20pt !important;
+  }
+
+  .a4-signature-box {
+    margin-top: 40pt !important;
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+}

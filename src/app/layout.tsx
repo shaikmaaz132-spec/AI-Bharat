@@ -32,7 +32,7 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="hi"
+      lang="en"
       data-script="devanagari"
       translate="no"
       className="notranslate"
@@ -40,36 +40,68 @@ export default function RootLayout({
     >
       <head>
         <meta name="google" content="notranslate" />
+        <meta name="googlebot" content="notranslate" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Jan AI" />
-        {/* Pre-hydration DOM protective patch against Google Translate removeChild crashes */}
+        {/* Bulletproof DOM protective patch against Google Translate removeChild/insertBefore crashes */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                if (typeof window === 'undefined') return;
+                if (typeof window === 'undefined' || typeof Node === 'undefined') return;
+                
                 var origRemove = Node.prototype.removeChild;
                 Node.prototype.removeChild = function(child) {
-                  if (child && child.parentNode !== this) {
+                  if (!child) return child;
+                  if (child.parentNode !== this) {
+                    try {
+                      if (child.parentNode) {
+                        return child.parentNode.removeChild(child);
+                      }
+                    } catch (e) {}
                     return child;
                   }
-                  return origRemove.apply(this, arguments);
+                  try {
+                    return origRemove.apply(this, arguments);
+                  } catch (e) {
+                    return child;
+                  }
                 };
+
                 var origInsert = Node.prototype.insertBefore;
                 Node.prototype.insertBefore = function(newNode, refNode) {
                   if (refNode && refNode.parentNode !== this) {
+                    try {
+                      if (refNode.parentNode) {
+                        return refNode.parentNode.insertBefore(newNode, refNode);
+                      }
+                    } catch (e) {}
                     return newNode;
                   }
-                  return origInsert.apply(this, arguments);
+                  try {
+                    return origInsert.apply(this, arguments);
+                  } catch (e) {
+                    return newNode;
+                  }
                 };
+
                 var origReplace = Node.prototype.replaceChild;
                 Node.prototype.replaceChild = function(newChild, oldChild) {
                   if (oldChild && oldChild.parentNode !== this) {
+                    try {
+                      if (oldChild.parentNode) {
+                        return oldChild.parentNode.replaceChild(newChild, oldChild);
+                      }
+                    } catch (e) {}
                     return oldChild;
                   }
-                  return origReplace.apply(this, arguments);
+                  try {
+                    return origReplace.apply(this, arguments);
+                  } catch (e) {
+                    return oldChild;
+                  }
                 };
               })();
             `,

@@ -193,39 +193,44 @@ export default function ChatPage() {
               </div>
 
               <div
-                className={`max-w-[85%] sm:max-w-[78%] rounded-3xl px-4 sm:px-5 py-3.5 shadow-xs ${
+                className={`max-w-[85%] sm:max-w-[78%] rounded-3xl px-4 sm:px-5 py-3.5 shadow-xs notranslate ${
                   isUser
                     ? 'bg-slate-900 text-white rounded-tr-xs'
                     : 'bg-white text-slate-800 border border-slate-200/90 rounded-tl-xs'
                 }`}
+                translate="no"
               >
                 {/* Message Body */}
-                <div className="text-sm sm:text-base leading-relaxed whitespace-pre-line font-medium">
+                <div
+                  className="text-sm sm:text-base leading-relaxed whitespace-pre-line font-medium notranslate"
+                  translate="no"
+                >
                   {msg.content}
                 </div>
 
                 {/* Assistant Audio Player & Source Badges */}
                 {!isUser && (
-                  <div className="mt-3 pt-3 border-t border-slate-100 flex flex-col gap-2.5">
+                  <div className="mt-3 pt-3 border-t border-slate-100 flex flex-col gap-2.5 notranslate" translate="no">
                     {/* Audio Playback Control */}
                     <AudioPlayer text={msg.content} audioUrl={msg.audioUrl} />
 
                     {/* Source Citations Badges */}
                     {msg.citations && msg.citations.length > 0 && (
-                      <div className="mt-1">
+                      <div className="mt-1 notranslate" translate="no">
                         <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5 flex items-center gap-1">
                           <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
                           सत्यापित स्रोत / Official Verified Citations:
                         </span>
 
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2 notranslate" translate="no">
                           {msg.citations.map((c, idx) => (
                             <a
-                              key={idx}
+                              key={c.officialUrl || idx}
                               href={c.officialUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-[#FF671F] text-xs font-semibold border border-orange-200 transition-colors shadow-2xs"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-[#FF671F] text-xs font-semibold border border-orange-200 transition-colors shadow-2xs notranslate"
+                              translate="no"
                             >
                               <span>{c.titleVernacular || c.title}</span>
                               <span className="text-[10px] bg-white px-1.5 py-0.5 rounded text-emerald-800 border border-emerald-200">
@@ -253,9 +258,13 @@ export default function ChatPage() {
         })}
 
         {isProcessing && (
-          <div className="flex items-center gap-3 text-slate-500 text-sm italic py-2 px-4 bg-white/60 rounded-2xl border border-slate-100 w-fit">
+          <div
+            key="chat-processing-indicator"
+            className="flex items-center gap-3 text-slate-500 text-sm italic py-2 px-4 bg-white/60 rounded-2xl border border-slate-100 w-fit notranslate"
+            translate="no"
+          >
             <span className="w-2 h-2 rounded-full bg-[#FF671F] animate-ping" />
-            <span>सत्यापित डेटाबेस में खोज रहे हैं... (Retrieving verified schemes)</span>
+            <span translate="no" className="notranslate">सत्यापित डेटाबेस में खोज रहे हैं... (Retrieving verified schemes)</span>
           </div>
         )}
 
@@ -263,14 +272,15 @@ export default function ChatPage() {
       </div>
 
       {/* Quick Prompts Chips */}
-      <div className="py-2.5 flex items-center gap-2 overflow-x-auto no-scrollbar">
-        {quickPrompts.map((p, idx) => (
+      <div className="py-2.5 flex items-center gap-2 overflow-x-auto no-scrollbar notranslate" translate="no">
+        {quickPrompts.map((p) => (
           <button
-            key={idx}
+            key={p.label}
             type="button"
             onClick={() => handleSendMessage(p.query)}
             disabled={isProcessing || isRecording}
-            className="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-white hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF671F] transition-all shadow-2xs"
+            className="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-white hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#FF671F] transition-all shadow-2xs notranslate"
+            translate="no"
           >
             {p.label}
           </button>
@@ -278,9 +288,9 @@ export default function ChatPage() {
       </div>
 
       {/* Input Dock: Pulsating Voice Button & Text Input */}
-      <div className="bg-white rounded-3xl p-3 border border-slate-200/90 shadow-lg flex flex-col sm:flex-row items-center gap-3">
+      <div className="bg-white rounded-3xl p-3 border border-slate-200/90 shadow-lg flex flex-col sm:flex-row items-center gap-3 notranslate" translate="no">
         {/* Pulsating Voice Record Button */}
-        <div className="shrink-0">
+        <div className="shrink-0 notranslate" translate="no">
           <VoiceRecordButton
             size="md"
             isRecording={isRecording}
@@ -298,7 +308,8 @@ export default function ChatPage() {
             e.preventDefault();
             handleSendMessage();
           }}
-          className="flex-1 w-full flex items-center gap-2 bg-slate-50 rounded-2xl px-4 py-2 border border-slate-200 focus-within:ring-2 focus-within:ring-[#FF671F] focus-within:bg-white transition-all"
+          className="flex-1 w-full flex items-center gap-2 bg-slate-50 rounded-2xl px-4 py-2 border border-slate-200 focus-within:ring-2 focus-within:ring-[#FF671F] focus-within:bg-white transition-all notranslate"
+          translate="no"
         >
           <input
             type="text"
@@ -306,13 +317,15 @@ export default function ChatPage() {
             onChange={(e) => setInputText(e.target.value)}
             disabled={isProcessing || isRecording}
             placeholder="अपनी भाषा में लिखें या माइक दबाकर बोलें..."
-            className="flex-1 bg-transparent text-slate-800 text-sm sm:text-base outline-none placeholder:text-slate-400"
+            className="flex-1 bg-transparent text-slate-800 text-sm sm:text-base outline-none placeholder:text-slate-400 notranslate"
+            translate="no"
           />
           <button
             type="submit"
             disabled={!inputText.trim() || isProcessing || isRecording}
-            className="p-2 rounded-xl bg-[#FF671F] hover:bg-orange-600 disabled:opacity-40 text-white transition-colors"
+            className="p-2 rounded-xl bg-[#FF671F] hover:bg-orange-600 disabled:opacity-40 text-white transition-colors notranslate"
             aria-label="Send Message"
+            translate="no"
           >
             <Send className="w-4 h-4" />
           </button>

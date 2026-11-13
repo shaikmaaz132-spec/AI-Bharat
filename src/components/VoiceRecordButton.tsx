@@ -115,21 +115,33 @@ export function VoiceRecordButton({
       </div>
 
       {/* Accessible Vernacular Label for Low-Literacy Citizens */}
-      <div className="mt-3 text-center">
+      <div className="mt-3 text-center notranslate" translate="no">
         {isRecording ? (
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-red-50 text-red-700 rounded-full font-semibold text-sm border border-red-200 animate-pulse">
+          <div
+            key="label-recording"
+            className="flex items-center gap-1.5 px-3 py-1 bg-red-50 text-red-700 rounded-full font-semibold text-sm border border-red-200 animate-pulse notranslate"
+            translate="no"
+          >
             <span className="w-2.5 h-2.5 bg-red-600 rounded-full animate-ping inline-block" />
-            <span>{t('recording')}</span>
+            <span translate="no" className="notranslate">{t('recording')}</span>
           </div>
         ) : isProcessing ? (
-          <span className="text-sm font-medium text-amber-700 animate-pulse">
-            प्रक्रिया जारी है... / Processing...
-          </span>
+          <div
+            key="label-processing"
+            className="text-sm font-medium text-amber-700 animate-pulse notranslate"
+            translate="no"
+          >
+            <span translate="no" className="notranslate">प्रक्रिया जारी है... / Processing...</span>
+          </div>
         ) : (
-          <span className="font-semibold text-slate-800 text-base sm:text-lg flex items-center gap-1.5 bg-white/80 backdrop-blur px-3 py-1 rounded-full shadow-sm border border-slate-200">
+          <div
+            key="label-idle"
+            className="font-semibold text-slate-800 text-base sm:text-lg flex items-center gap-1.5 bg-white/80 backdrop-blur px-3 py-1 rounded-full shadow-sm border border-slate-200 notranslate"
+            translate="no"
+          >
             <Volume2 className="w-4 h-4 text-[#FF671F]" />
-            {t('tapToSpeak')}
-          </span>
+            <span translate="no" className="notranslate">{t('tapToSpeak')}</span>
+          </div>
         )}
       </div>
     </div>

@@ -30,29 +30,29 @@ export default function HomePage() {
 
   const quickFeatures = [
     {
-      title: 'आवाज़ में पूछें (Voice Assistant)',
-      desc: 'अपनी मातृभाषा में बोलें और किसी भी सरकारी योजना की सटीक जानकारी पाएं।',
+      title: t('featChatTitle'),
+      desc: t('featChatDesc'),
       icon: Mic,
       href: '/chat',
       color: 'from-orange-500 to-amber-600',
     },
     {
-      title: 'योजना पात्रता जांच (Eligibility Wizard)',
-      desc: 'अपनी उम्र, ज़मीन और आय के आधार पर जानें कि आपको कितनी सरकारी मदद मिल सकती है।',
+      title: t('featEligTitle'),
+      desc: t('featEligDesc'),
       icon: CheckCircle,
       href: '/eligibility',
       color: 'from-emerald-600 to-teal-700',
     },
     {
-      title: 'कल्याणकारी योजनाएं (Schemes Catalog)',
-      desc: 'पीएम-किसान, आयुष्मान भारत, आवास योजना सहित सभी केंद्रीय व राज्य योजनाओं की सूची।',
+      title: t('featSchemesTitle'),
+      desc: t('featSchemesDesc'),
       icon: Search,
       href: '/schemes',
       color: 'from-blue-600 to-indigo-700',
     },
     {
-      title: 'शिकायत व आरटीआई ड्राफ्टर (Legal Drafter)',
-      desc: 'राशन, सड़क या पेंशन समस्या के लिए वैधानिक द्विभाषी आवेदन पत्र तैयार करें।',
+      title: t('featGrievTitle'),
+      desc: t('featGrievDesc'),
       icon: FileText,
       href: '/grievance',
       color: 'from-purple-600 to-rose-700',
@@ -61,21 +61,21 @@ export default function HomePage() {
 
   const featuredSchemes = [
     {
-      title: 'पीएम किसान सम्मान निधि',
-      benefit: '₹6,000 / वर्ष',
-      desc: 'सभी भूमिधारक किसान परिवारों को प्रति वर्ष ₹6,000 की प्रत्यक्ष आय सहायता।',
+      title: t('pmKisanTitle'),
+      benefit: t('pmKisanBenefit'),
+      desc: t('pmKisanDesc'),
       href: '/schemes/pm-kisan',
     },
     {
-      title: 'आयुष्मान भारत (PM-JAY)',
-      benefit: '₹5,00,000 / परिवार',
-      desc: 'गरीब और कमजोर परिवारों के लिए माध्यमिक और तृतीयक देखभाल अस्पताल में कैशलेस इलाज।',
+      title: t('ayushmanTitle'),
+      benefit: t('ayushmanBenefit'),
+      desc: t('ayushmanDesc'),
       href: '/schemes/pm-jay',
     },
     {
-      title: 'प्रधानमंत्री आवास योजना (PMAY-G)',
-      benefit: '₹1,20,000 अनुदान',
-      desc: 'कच्चे और जर्जर घरों में रहने वाले परिवारों को पक्का मकान निर्माण हेतु सीधी मदद।',
+      title: t('pmayTitle'),
+      benefit: t('pmayBenefit'),
+      desc: t('pmayDesc'),
       href: '/schemes/pm-awas-gramin',
     },
   ];
@@ -87,18 +87,18 @@ export default function HomePage() {
         <div className="relative z-10 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-orange-300 text-xs font-bold uppercase tracking-wider mb-4 backdrop-blur-sm border border-white/10">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>जन एआई • भारत सरकार की डिजिटल सार्वजनिक सेवा</span>
+            <span>{t('heroBadge')}</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-            अपनी आवाज़ में पाएं <br />
+            {t('heroTitle1')} <br />
             <span className="bg-gradient-to-r from-[#FF9933] via-white to-[#00C853] bg-clip-text text-transparent">
-              सरकारी योजनाओं का लाभ
+              {t('heroTitle2')}
             </span>
           </h1>
 
           <p className="text-sm sm:text-lg text-slate-300 mt-4 leading-relaxed font-normal max-w-2xl">
-            1.4 अरब भारतीय नागरिकों के लिए तैयार किया गया पहला आवाज़-आधारित मंच। 13+ भाषाओं में कल्याणकारी योजनाओं की जानकारी, शून्य-भ्रम (Zero Hallucination) पात्रता जांच और आरटीआई आवेदन।
+            {t('heroDesc')}
           </p>
 
           {/* Quick Voice Trigger Banner */}
@@ -113,10 +113,10 @@ export default function HomePage() {
             </div>
             <div className="text-center sm:text-left">
               <span className="text-xs font-bold text-amber-300 uppercase tracking-wider block">
-                त्वरित आवाज़ सहायता
+                {t('quickVoiceHeading')}
               </span>
               <p className="text-sm font-semibold text-white">
-                माइक दबाएं और किसी भी योजना के बारे में सीधे बोलकर पूछें
+                {t('quickVoiceSub')}
               </p>
             </div>
           </div>
@@ -132,10 +132,10 @@ export default function HomePage() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-              प्रमुख नागरिक सेवाएं / Citizen Services
+              {t('servicesHeading')}
             </h2>
             <p className="text-xs sm:text-sm text-slate-500">
-              सुविधाजनक, निष्पक्ष और पूरी तरह से निःशुल्क
+              {t('servicesSub')}
             </p>
           </div>
         </div>
@@ -164,7 +164,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#FF671F]">
-                  <span>शुरू करें</span>
+                  <span>{currentLanguage.code === 'en' ? 'Get Started' : 'शुरू करें'}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </div>
               </Link>
@@ -178,10 +178,10 @@ export default function HomePage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-orange-100 text-[#FF671F] uppercase tracking-wider">
-              सत्यापित योजनाएं
+              {currentLanguage.code === 'en' ? 'Verified Schemes' : 'सत्यापित योजनाएं'}
             </span>
             <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">
-              लोकप्रिय सरकारी कल्याणकारी योजनाएं
+              {t('featuredSchemesHeading')}
             </h2>
           </div>
 
@@ -189,7 +189,7 @@ export default function HomePage() {
             href="/schemes"
             className="text-xs sm:text-sm font-bold text-[#FF671F] hover:text-orange-700 flex items-center gap-1 self-start sm:self-auto"
           >
-            <span>सभी 12+ योजनाएं देखें</span>
+            <span>{currentLanguage.code === 'en' ? 'View all schemes' : 'सभी 12+ योजनाएं देखें'}</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -208,7 +208,7 @@ export default function HomePage() {
                 <h3 className="font-bold text-slate-900 text-base">{s.title}</h3>
                 <p className="text-xs text-slate-600 mt-2 leading-relaxed">{s.desc}</p>
               </div>
-              <span className="text-xs font-bold text-[#FF671F] mt-4 block">विवरण देखें →</span>
+              <span className="text-xs font-bold text-[#FF671F] mt-4 block">{t('viewDetails')} →</span>
             </Link>
           ))}
         </div>
@@ -218,26 +218,40 @@ export default function HomePage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs">
           <Globe className="w-6 h-6 text-[#FF671F] mx-auto mb-1.5" />
-          <h4 className="font-extrabold text-slate-900 text-sm">13+ भाषाएं</h4>
-          <p className="text-[11px] text-slate-500">हिंदी, तेलुगु, तमिल, बांग्ला आदि</p>
+          <h4 className="font-extrabold text-slate-900 text-sm">
+            {currentLanguage.code === 'en' ? '13+ Languages' : '13+ भाषाएं'}
+          </h4>
+          <p className="text-[11px] text-slate-500">
+            {currentLanguage.code === 'en' ? 'Hindi, English, Telugu, Tamil, Bengali' : 'हिंदी, अंग्रेजी, तेलुगु, तमिल, बांग्ला'}
+          </p>
         </div>
 
         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs">
           <ShieldCheck className="w-6 h-6 text-emerald-600 mx-auto mb-1.5" />
           <h4 className="font-extrabold text-slate-900 text-sm">Zero Hallucination</h4>
-          <p className="text-[11px] text-slate-500">100% आधिकारिक डेटा से सत्यापित</p>
+          <p className="text-[11px] text-slate-500">
+            {currentLanguage.code === 'en' ? '100% Grounded in Official Data' : '100% आधिकारिक डेटा से सत्यापित'}
+          </p>
         </div>
 
         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs">
           <Cpu className="w-6 h-6 text-blue-600 mx-auto mb-1.5" />
-          <h4 className="font-extrabold text-slate-900 text-sm">आधार गोपनीयता</h4>
-          <p className="text-[11px] text-slate-500">स्वतः XXXX-XXXX-1234 मास्किंग</p>
+          <h4 className="font-extrabold text-slate-900 text-sm">
+            {currentLanguage.code === 'en' ? 'Aadhaar Privacy' : 'आधार गोपनीयता'}
+          </h4>
+          <p className="text-[11px] text-slate-500">
+            {currentLanguage.code === 'en' ? 'Auto XXXX-XXXX-1234 Masking' : 'स्वतः XXXX-XXXX-1234 मास्किंग'}
+          </p>
         </div>
 
         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs">
           <Layers className="w-6 h-6 text-purple-600 mx-auto mb-1.5" />
-          <h4 className="font-extrabold text-slate-900 text-sm">ऑफलाइन PWA</h4>
-          <p className="text-[11px] text-slate-500">IndexedDB स्थानीय कैशिंग</p>
+          <h4 className="font-extrabold text-slate-900 text-sm">
+            {currentLanguage.code === 'en' ? 'Offline PWA' : 'ऑफलाइन PWA'}
+          </h4>
+          <p className="text-[11px] text-slate-500">
+            {currentLanguage.code === 'en' ? 'IndexedDB Local Storage' : 'IndexedDB स्थानीय कैशिंग'}
+          </p>
         </div>
       </div>
     </div>

@@ -43,11 +43,11 @@ export default function ChatPage() {
     const initialGreeting: Message = {
       id: 'msg-initial',
       role: 'assistant',
-      content: currentLanguage.sampleGreeting + ' किसी भी कल्याणकारी योजना, पेंशन, स्वास्थ्य बीमा या सब्सिडी के बारे में बेझिझक पूछें।',
+      content: currentLanguage.sampleGreeting + t('chatGreetingSuffix'),
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
     setMessages([initialGreeting]);
-  }, [currentLanguage]);
+  }, [currentLanguage, t]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -57,7 +57,7 @@ export default function ChatPage() {
     const query = text || inputText;
     if (!query.trim() && !audioPayload) return;
 
-    const userMessageText = query.trim() || '🎤 ध्वनि संदेश / Voice query';
+    const userMessageText = query.trim() || t('voiceQuery');
     const userMsg: Message = {
       id: `user-${Date.now()}`,
       role: 'user',
@@ -127,7 +127,12 @@ export default function ChatPage() {
     reader.readAsDataURL(recordedBlob);
   };
 
-  const quickPrompts = [
+  const quickPrompts = currentLanguage.code === 'en' ? [
+    { label: '🌾 PM-Kisan ₹6,000 benefit', query: 'How to receive the ₹6,000 benefit under PM Kisan Yojana?' },
+    { label: '🏥 Ayushman Card ₹5 Lakh', query: 'How to get up to ₹5 lakh free hospital treatment under Ayushman Bharat PM-JAY?' },
+    { label: '🏠 PMAY Pucca House', query: 'How much financial assistance is provided for house construction under PMAY Gramin?' },
+    { label: '👵 Atal Pension Yojana', query: 'How to get ₹1,000 to ₹5,000 guaranteed monthly pension under Atal Pension Yojana?' },
+  ] : [
     { label: '🌾 PM-Kisan ₹6,000 लाभ', query: 'PM Kisan Yojana का ₹6000 का लाभ कैसे प्राप्त करें?' },
     { label: '🏥 आयुष्मान कार्ड ₹5 लाख', query: 'आयुष्मान भारत PM-JAY योजना में ₹5 लाख तक का मुफ्त इलाज कैसे मिलता है?' },
     { label: '🏠 पक्का मकान PMAY', query: 'प्रधानमंत्री आवास योजना ग्रामीण में घर बनाने के लिए कितना पैसा मिलता है?' },
@@ -144,13 +149,13 @@ export default function ChatPage() {
           </div>
           <div>
             <h1 className="text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
-              <span>जन एआई - आवाज़ सहायता</span>
+              <span>{t('chatHeader')}</span>
               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
                 Zero Hallucination
               </span>
             </h1>
             <p className="text-xs text-slate-500">
-              सत्यापित सरकारी योजनाओं पर आधारित सटीक जानकारी ({currentLanguage.nativeName})
+              {t('chatSub')} ({currentLanguage.nativeName})
             </p>
           </div>
         </div>
@@ -219,7 +224,7 @@ export default function ChatPage() {
                       <div className="mt-1 notranslate" translate="no">
                         <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5 flex items-center gap-1">
                           <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                          सत्यापित स्रोत / Official Verified Citations:
+                          {t('officialCitations')}
                         </span>
 
                         <div className="flex flex-wrap gap-2 notranslate" translate="no">
@@ -264,7 +269,7 @@ export default function ChatPage() {
             translate="no"
           >
             <span className="w-2 h-2 rounded-full bg-[#FF671F] animate-ping" />
-            <span translate="no" className="notranslate">सत्यापित डेटाबेस में खोज रहे हैं... (Retrieving verified schemes)</span>
+            <span translate="no" className="notranslate">{t('chatRetrieving')}</span>
           </div>
         )}
 
@@ -316,7 +321,7 @@ export default function ChatPage() {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             disabled={isProcessing || isRecording}
-            placeholder="अपनी भाषा में लिखें या माइक दबाकर बोलें..."
+            placeholder={t('chatPlaceholder')}
             className="flex-1 bg-transparent text-slate-800 text-sm sm:text-base outline-none placeholder:text-slate-400 notranslate"
             translate="no"
           />

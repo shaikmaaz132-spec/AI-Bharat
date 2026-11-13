@@ -13,7 +13,7 @@ export function Navigation() {
   const { isOffline } = useOffline();
 
   const navItems = [
-    { href: '/chat', label: 'बोलें / Chat', icon: MessageSquare },
+    { href: '/chat', label: t('navChat'), icon: MessageSquare },
     { href: '/schemes', label: t('schemes'), icon: BookOpen },
     { href: '/eligibility', label: t('eligibility'), icon: CheckCircle },
     { href: '/grievance', label: t('grievance'), icon: FileText },
@@ -34,14 +34,14 @@ export function Navigation() {
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-[#FF671F] to-[#046A38] bg-clip-text text-transparent">
-                  जन एआई
+                  {t('brandTitle')}
                 </span>
                 <span className="text-xs px-1.5 py-0.5 rounded-md bg-orange-100 text-orange-800 font-semibold uppercase tracking-wider">
                   Bharat
                 </span>
               </div>
               <p className="text-[10px] text-slate-500 font-medium leading-none">
-                AI for Citizens & Welfare
+                {t('brandSubtitle')}
               </p>
             </div>
           </Link>
@@ -76,7 +76,7 @@ export function Navigation() {
           <div className="flex items-center gap-2 sm:gap-3">
             {isOffline && (
               <span className="text-[11px] font-bold px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full border border-amber-300">
-                ऑफलाइन / Offline
+                {t('offlineBadge')}
               </span>
             )}
 

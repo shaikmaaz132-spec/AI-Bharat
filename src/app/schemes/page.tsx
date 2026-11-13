@@ -19,14 +19,14 @@ export default function SchemesCatalogPage() {
   const [loading, setLoading] = useState<boolean>(true);
 
   const categories = [
-    { id: 'all', label: 'सभी / All' },
-    { id: 'agriculture', label: '🌾 कृषि / Agriculture' },
-    { id: 'healthcare', label: '🏥 स्वास्थ्य / Healthcare' },
-    { id: 'housing', label: '🏠 आवास / Housing' },
-    { id: 'employment', label: '💼 रोजगार / Employment' },
-    { id: 'women_welfare', label: '👩 महिला कल्याण / Women' },
-    { id: 'social_security', label: '🛡️ सामाजिक सुरक्षा / Pension' },
-    { id: 'education', label: '🎓 शिक्षा / Education' },
+    { id: 'all', label: t('catAll') },
+    { id: 'agriculture', label: t('catAgri') },
+    { id: 'healthcare', label: t('catHealth') },
+    { id: 'housing', label: t('catHousing') },
+    { id: 'employment', label: t('catEmp') },
+    { id: 'women_welfare', label: t('catWomen') },
+    { id: 'social_security', label: t('catPension') },
+    { id: 'education', label: t('catEdu') },
   ];
 
   useEffect(() => {
@@ -77,14 +77,14 @@ export default function SchemesCatalogPage() {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              सरकारी कल्याणकारी योजनाएं
+              {t('catalogTitle')}
             </h1>
             <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-orange-100 text-[#FF671F]">
               Welfare Catalog
             </span>
           </div>
           <p className="text-sm text-slate-600 mt-1">
-            प्रत्यक्ष वित्तीय लाभ, सब्सिडी और सामाजिक सुरक्षा योजनाओं की संपूर्ण आधिकारिक सूची।
+            {t('catalogSub')}
           </p>
         </div>
 
@@ -92,7 +92,7 @@ export default function SchemesCatalogPage() {
         <div className="flex items-center gap-2 bg-white p-1.5 rounded-2xl border border-slate-200 shadow-2xs self-start md:self-auto">
           <Languages className="w-4 h-4 text-[#FF671F] ml-2" />
           <span className="text-xs font-semibold text-slate-700 mr-2">
-            मातृभाषा अनुवाद / Vernacular:
+            {currentLanguage.code === 'en' ? 'Vernacular Translation:' : 'मातृभाषा अनुवाद / Vernacular:'}
           </span>
           <button
             type="button"
@@ -106,7 +106,13 @@ export default function SchemesCatalogPage() {
               }
             `}
           >
-            {showVernacularOnly ? 'चालू / ON' : 'बंद / OFF'}
+            {showVernacularOnly
+              ? currentLanguage.code === 'en'
+                ? 'ON'
+                : 'चालू / ON'
+              : currentLanguage.code === 'en'
+              ? 'OFF'
+              : 'बंद / OFF'}
           </button>
         </div>
       </div>
@@ -118,7 +124,7 @@ export default function SchemesCatalogPage() {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="योजना का नाम, लाभ या कीवर्ड खोजें (जैसे: किसान, ₹6000, आवास, पेंशन, राशन)..."
+          placeholder={t('searchSchemesPlaceholder')}
           className="w-full pl-12 pr-4 py-3 rounded-2xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#FF671F] shadow-xs"
         />
       </div>

@@ -33,14 +33,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       if (match) {
         setCurrentLanguageState(match);
         document.documentElement.setAttribute('data-script', match.script);
-        document.documentElement.setAttribute('lang', match.code);
+        document.documentElement.setAttribute('lang', 'en');
         return;
       }
     }
 
     // Default to Hindi
     document.documentElement.setAttribute('data-script', defaultLang.script);
-    document.documentElement.setAttribute('lang', defaultLang.code);
+    document.documentElement.setAttribute('lang', 'en');
   }, []);
 
   const setLanguage = (langCode: string) => {
@@ -49,7 +49,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       setCurrentLanguageState(found);
       localStorage.setItem('bharat_language', found.code);
       document.documentElement.setAttribute('data-script', found.script);
-      document.documentElement.setAttribute('lang', found.code);
+      document.documentElement.setAttribute('lang', 'en');
     }
   };
 

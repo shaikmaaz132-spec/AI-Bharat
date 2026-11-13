@@ -25,7 +25,7 @@ import { savePetitionToIdb } from '@/lib/idb';
 import { maskAadhaar } from '@/lib/piiMasker';
 
 export default function GrievanceDrafterPage() {
-  const { currentLanguage } = useLanguage();
+  const { currentLanguage, t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'draft' | 'scanner'>('draft');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isAnalyzingDoc, setIsAnalyzingDoc] = useState(false);
@@ -203,10 +203,10 @@ export default function GrievanceDrafterPage() {
           <span>Legal RTI & Public Grievance Drafter</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-          आधिकारिक जन शिकायत एवं आरटीआई आवेदन पत्र निर्माण
+          {t('grievTitle')}
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 max-w-2xl mx-auto mt-1">
-          अपनी आवाज़ में शिकायत बोलें और तुरंत वैधानिक अधिनियमों के अंतर्गत द्विभाषी (हिंदी एवं अंग्रेज़ी) आवेदन पत्र तैयार करें।
+          {t('grievSub')}
         </p>
 
         {/* Tab switch between Drafter & Vision Scanner */}

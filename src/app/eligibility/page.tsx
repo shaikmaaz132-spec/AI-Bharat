@@ -112,10 +112,10 @@ export default function EligibilityWizardPage() {
           <span>AI Eligibility Wizard</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-          सरकारी योजना पात्रता जांच केंद्र
+          {t('eligTitle')}
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto mt-1">
-          केवल 3 सरल चरणों में अपनी और अपने परिवार की पात्रता जांचें और जानें कि आपको किन योजनाओं से वित्तीय लाभ मिल सकता है।
+          {t('eligSub')}
         </p>
       </div>
 

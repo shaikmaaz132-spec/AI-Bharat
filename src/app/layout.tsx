@@ -4,6 +4,8 @@ import { LanguageProvider } from '@/hooks/useLanguage';
 import { Navigation } from '@/components/Navigation';
 import { OfflineBanner } from '@/components/OfflineBanner';
 import { LanguageModal } from '@/components/LanguageModal';
+import { GoogleTranslateFix } from '@/components/GoogleTranslateFix';
+import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister';
 
 export const viewport: Viewport = {
   themeColor: '#FF671F',
@@ -29,39 +31,63 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="hi" data-script="devanagari">
+    <html
+      lang="hi"
+      data-script="devanagari"
+      translate="no"
+      className="notranslate"
+      suppressHydrationWarning
+    >
       <head>
+        <meta name="google" content="notranslate" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Jan AI" />
+        {/* Pre-hydration DOM protective patch against Google Translate removeChild crashes */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                if (typeof window === 'undefined') return;
+                var origRemove = Node.prototype.removeChild;
+                Node.prototype.removeChild = function(child) {
+                  if (child && child.parentNode !== this) {
+                    return child;
+                  }
+                  return origRemove.apply(this, arguments);
+                };
+                var origInsert = Node.prototype.insertBefore;
+                Node.prototype.insertBefore = function(newNode, refNode) {
+                  if (refNode && refNode.parentNode !== this) {
+                    return newNode;
+                  }
+                  return origInsert.apply(this, arguments);
+                };
+                var origReplace = Node.prototype.replaceChild;
+                Node.prototype.replaceChild = function(newChild, oldChild) {
+                  if (oldChild && oldChild.parentNode !== this) {
+                    return oldChild;
+                  }
+                  return origReplace.apply(this, arguments);
+                };
+              })();
+            `,
+          }}
+        />
       </head>
-      <body className="min-h-screen bg-[#FDFBF7] text-slate-800 flex flex-col font-indic">
+      <body
+        className="notranslate min-h-screen bg-[#FDFBF7] text-slate-800 flex flex-col font-indic"
+        translate="no"
+        suppressHydrationWarning
+      >
+        <GoogleTranslateFix />
+        <ServiceWorkerRegister />
         <LanguageProvider>
           <OfflineBanner />
           <Navigation />
           <main className="flex-1 pb-20 md:pb-8">{children}</main>
           <LanguageModal />
-
-          {/* Service Worker Registration Script */}
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                if ('serviceWorker' in navigator) {
-                  window.addEventListener('load', function() {
-                    navigator.serviceWorker.register('/sw.js').then(
-                      function(registration) {
-                        console.log('ServiceWorker registration successful:', registration.scope);
-                      },
-                      function(err) {
-                        console.log('ServiceWorker registration failed:', err);
-                      }
-                    );
-                  });
-                }
-              `,
-            }}
-          />
         </LanguageProvider>
       </body>
     </html>

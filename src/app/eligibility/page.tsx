@@ -429,6 +429,7 @@ export default function EligibilityWizardPage() {
                     onChange={(e) => setFormData({ ...formData, age: e.target.value })}
                     min="1"
                     max="110"
+                    autoComplete="off"
                     className={inputClass}
                   />
                 </div>
@@ -517,6 +518,7 @@ export default function EligibilityWizardPage() {
                     onChange={(e) => setFormData({ ...formData, landHoldingAcres: e.target.value })}
                     min="0"
                     max="100"
+                    autoComplete="off"
                     className={inputClass}
                   />
                 </div>
@@ -529,6 +531,7 @@ export default function EligibilityWizardPage() {
                     value={formData.annualIncome}
                     onChange={(e) => setFormData({ ...formData, annualIncome: e.target.value })}
                     min="0"
+                    autoComplete="off"
                     className={inputClass}
                   />
                 </div>

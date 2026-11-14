@@ -84,3 +84,13 @@ export function GoogleTranslateFix() {
   return null;
 }
 
+export function resetToEnglish() {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+  const expire = 'expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  const host = window.location.hostname;
+  document.cookie = `googtrans=; ${expire}`;
+  document.cookie = `googtrans=; ${expire} domain=${host};`;
+  document.cookie = `googtrans=; ${expire} domain=.${host};`;
+  window.location.reload();
+}
+

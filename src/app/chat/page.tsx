@@ -103,7 +103,7 @@ export default function ChatPage() {
       const errorMsg: Message = {
         id: `err-${Date.now()}`,
         role: 'assistant',
-        content: 'सॉफ़्टवेयर सर्वर से संपर्क नहीं हो पा रहा है। आप ऑफ़लाइन मोड में योजना सूची देख सकते हैं।',
+        content: t('chatServerError'),
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
       setMessages((prev) => [...prev, errorMsg]);
@@ -165,7 +165,7 @@ export default function ChatPage() {
             const initialGreeting: Message = {
               id: `msg-${Date.now()}`,
               role: 'assistant',
-              content: currentLanguage.sampleGreeting,
+              content: currentLanguage.sampleGreeting + t('chatGreetingSuffix'),
               timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             };
             setMessages([initialGreeting]);
@@ -188,21 +188,19 @@ export default function ChatPage() {
               className={`flex items-start gap-2.5 sm:gap-3 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
             >
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-xs font-bold ${
-                  isUser
-                    ? 'bg-slate-800 text-white'
-                    : 'bg-gradient-to-tr from-[#FF671F] to-[#046A38] text-white shadow-xs'
-                }`}
+                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-xs font-bold ${isUser
+                  ? 'bg-slate-800 text-white'
+                  : 'bg-gradient-to-tr from-[#FF671F] to-[#046A38] text-white shadow-xs'
+                  }`}
               >
                 {isUser ? <User className="w-4 h-4" /> : <Sparkles className="w-4 h-4 text-amber-300" />}
               </div>
 
               <div
-                className={`max-w-[85%] sm:max-w-[78%] rounded-3xl px-4 sm:px-5 py-3.5 shadow-xs notranslate ${
-                  isUser
-                    ? 'bg-slate-900 text-white rounded-tr-xs'
-                    : 'bg-white text-slate-800 border border-slate-200/90 rounded-tl-xs'
-                }`}
+                className={`max-w-[85%] sm:max-w-[78%] rounded-3xl px-4 sm:px-5 py-3.5 shadow-xs notranslate ${isUser
+                  ? 'bg-slate-900 text-white rounded-tr-xs'
+                  : 'bg-white text-slate-800 border border-slate-200/90 rounded-tl-xs'
+                  }`}
                 translate="no"
               >
                 {/* Message Body */}
@@ -251,9 +249,8 @@ export default function ChatPage() {
                 )}
 
                 <div
-                  className={`text-[10px] mt-1 text-right ${
-                    isUser ? 'text-slate-400' : 'text-slate-400'
-                  }`}
+                  className={`text-[10px] mt-1 text-right ${isUser ? 'text-slate-400' : 'text-slate-400'
+                    }`}
                 >
                   {msg.timestamp}
                 </div>

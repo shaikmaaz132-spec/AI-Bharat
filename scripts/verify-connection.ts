@@ -49,9 +49,24 @@ async function verifyAllConnections() {
   console.log('Testing Google Gemini API Key...');
   try {
     const genAI = new GoogleGenerativeAI(geminiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-    const res = await model.generateContent('Say "OK"');
-    console.log('  ✅ Gemini API Key is ACTIVE and valid! Response:', res.response.text().trim());
+    const candidateModels = ['gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-1.5-flash'];
+    let connected = false;
+    for (const m of candidateModels) {
+      try {
+        const model = genAI.getGenerativeModel({ model: m });
+        const res = await model.generateContent('Say "OK"');
+        console.log(`  ✅ Gemini API Key is ACTIVE and valid with model "${m}"! Response:`, res.response.text().trim());
+        connected = true;
+        break;
+      } catch (innerErr: any) {
+        if (!innerErr.message.includes('404')) {
+          throw innerErr;
+        }
+      }
+    }
+    if (!connected) {
+      console.log('  ⚠️ Gemini API Key responded, but models need updating.');
+    }
   } catch (err: any) {
     console.log('  ❌ Gemini API Key failed:', err.message);
   }

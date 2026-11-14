@@ -5,6 +5,7 @@ import { DocumentExtraction } from './schemas';
 
 // Initialize the Google Generative AI client
 const genAI = new GoogleGenerativeAI(env.GEMINI_API_KEY || 'demo-key');
+const PRIMARY_MODEL = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
 
 /**
  * Generates 768-dimensional vector embedding for semantic search
@@ -31,7 +32,7 @@ export async function transcribeAudio(
   languageHint: string = 'hi'
 ): Promise<string> {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: PRIMARY_MODEL });
 
     const prompt = `You are a speech-to-text engine for Indian languages (Hindi, Telugu, Tamil, Bengali, Marathi, Gujarati, English, etc.).
 Language Hint: ${languageHint}.
@@ -71,7 +72,7 @@ export async function chatWithGrounding(
 }> {
   try {
     const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
+      model: PRIMARY_MODEL,
       generationConfig: {
         temperature: 0.2, // Low temperature for factual precision & zero hallucination
         topP: 0.8,
@@ -237,7 +238,7 @@ export async function analyzeDocumentVision(
 ): Promise<DocumentExtraction> {
   try {
     const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
+      model: PRIMARY_MODEL,
       generationConfig: {
         responseMimeType: 'application/json',
         responseSchema: {
@@ -337,7 +338,7 @@ export async function generateGrievancePetitionDraft(input: {
   vernacularDraft: string;
 }> {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: PRIMARY_MODEL });
 
     const isRti = input.petitionType === 'rti';
     const statutoryRef = isRti

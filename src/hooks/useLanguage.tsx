@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { SUPPORTED_LANGUAGES, Language, getTranslation } from '@/lib/languages';
 
 interface LanguageContextType {
@@ -15,57 +15,57 @@ const defaultLang = SUPPORTED_LANGUAGES[0]; // Hindi default
 
 const LanguageContext = createContext<LanguageContextType>({
   currentLanguage: defaultLang,
-  setLanguage: () => {},
+  setLanguage: () => { },
   t: (key: string) => key,
   isModalOpen: false,
-  setIsModalOpen: () => {},
+  setIsModalOpen: () => { },
 });
+
+function applyToDocument(lang: Language) {
+  document.documentElement.setAttribute('data-script', lang.script);
+  document.documentElement.setAttribute('lang', lang.code);
+}
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [currentLanguage, setCurrentLanguageState] = useState<Language>(defaultLang);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    // Check saved language preference in localStorage
-    const saved = localStorage.getItem('bharat_language');
-    if (saved) {
-      const match = SUPPORTED_LANGUAGES.find((l) => l.code === saved);
+    try {
+      const saved = localStorage.getItem('bharat_language');
+      const match = saved ? SUPPORTED_LANGUAGES.find((l) => l.code === saved) : undefined;
       if (match) {
         setCurrentLanguageState(match);
-        document.documentElement.setAttribute('data-script', match.script);
-        document.documentElement.setAttribute('lang', 'en');
+        applyToDocument(match);
         return;
       }
+    } catch {
+      // localStorage unavailable
     }
-
-    // Default to Hindi
-    document.documentElement.setAttribute('data-script', defaultLang.script);
-    document.documentElement.setAttribute('lang', 'en');
+    applyToDocument(defaultLang);
   }, []);
 
   const setLanguage = (langCode: string) => {
     const found = SUPPORTED_LANGUAGES.find((l) => l.code === langCode);
     if (found) {
       setCurrentLanguageState(found);
-      localStorage.setItem('bharat_language', found.code);
-      document.documentElement.setAttribute('data-script', found.script);
-      document.documentElement.setAttribute('lang', 'en');
+      try {
+        localStorage.setItem('bharat_language', found.code);
+      } catch {
+        // ignore
+      }
+      applyToDocument(found);
     }
   };
 
-  const t = (key: string) => {
-    return getTranslation(key, currentLanguage.code);
-  };
+  const t = useCallback(
+    (key: string) => getTranslation(key, currentLanguage.code),
+    [currentLanguage.code]
+  );
 
   return (
     <LanguageContext.Provider
-      value={{
-        currentLanguage,
-        setLanguage,
-        t,
-        isModalOpen,
-        setIsModalOpen,
-      }}
+      value={{ currentLanguage, setLanguage, t, isModalOpen, setIsModalOpen }}
     >
       {children}
     </LanguageContext.Provider>

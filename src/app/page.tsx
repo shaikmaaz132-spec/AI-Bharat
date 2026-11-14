@@ -8,12 +8,10 @@ import {
   Search,
   CheckCircle,
   FileText,
-  Camera,
   ShieldCheck,
   Globe,
   Sparkles,
   ArrowRight,
-  TrendingUp,
   Cpu,
   Layers,
 } from 'lucide-react';
@@ -22,62 +20,23 @@ import { useLanguage } from '@/hooks/useLanguage';
 
 export default function HomePage() {
   const router = useRouter();
-  const { currentLanguage, setIsModalOpen, t } = useLanguage();
+  const { t } = useLanguage();
 
   const handleMicClick = () => {
     router.push('/chat');
   };
 
   const quickFeatures = [
-    {
-      title: t('featChatTitle'),
-      desc: t('featChatDesc'),
-      icon: Mic,
-      href: '/chat',
-      color: 'from-orange-500 to-amber-600',
-    },
-    {
-      title: t('featEligTitle'),
-      desc: t('featEligDesc'),
-      icon: CheckCircle,
-      href: '/eligibility',
-      color: 'from-emerald-600 to-teal-700',
-    },
-    {
-      title: t('featSchemesTitle'),
-      desc: t('featSchemesDesc'),
-      icon: Search,
-      href: '/schemes',
-      color: 'from-blue-600 to-indigo-700',
-    },
-    {
-      title: t('featGrievTitle'),
-      desc: t('featGrievDesc'),
-      icon: FileText,
-      href: '/grievance',
-      color: 'from-purple-600 to-rose-700',
-    },
+    { title: t('featChatTitle'), desc: t('featChatDesc'), icon: Mic, href: '/chat', color: 'from-orange-500 to-amber-600' },
+    { title: t('featEligTitle'), desc: t('featEligDesc'), icon: CheckCircle, href: '/eligibility', color: 'from-emerald-600 to-teal-700' },
+    { title: t('featSchemesTitle'), desc: t('featSchemesDesc'), icon: Search, href: '/schemes', color: 'from-blue-600 to-indigo-700' },
+    { title: t('featGrievTitle'), desc: t('featGrievDesc'), icon: FileText, href: '/grievance', color: 'from-purple-600 to-rose-700' },
   ];
 
   const featuredSchemes = [
-    {
-      title: t('pmKisanTitle'),
-      benefit: t('pmKisanBenefit'),
-      desc: t('pmKisanDesc'),
-      href: '/schemes/pm-kisan',
-    },
-    {
-      title: t('ayushmanTitle'),
-      benefit: t('ayushmanBenefit'),
-      desc: t('ayushmanDesc'),
-      href: '/schemes/pm-jay',
-    },
-    {
-      title: t('pmayTitle'),
-      benefit: t('pmayBenefit'),
-      desc: t('pmayDesc'),
-      href: '/schemes/pm-awas-gramin',
-    },
+    { title: t('pmKisanTitle'), benefit: t('pmKisanBenefit'), desc: t('pmKisanDesc'), href: '/schemes/pm-kisan' },
+    { title: t('ayushmanTitle'), benefit: t('ayushmanBenefit'), desc: t('ayushmanDesc'), href: '/schemes/pm-jay' },
+    { title: t('pmayTitle'), benefit: t('pmayBenefit'), desc: t('pmayDesc'), href: '/schemes/pm-awas-gramin' },
   ];
 
   return (
@@ -108,21 +67,18 @@ export default function HomePage() {
                 size="md"
                 isRecording={false}
                 onStart={handleMicClick}
-                onStop={() => {}}
+                onStop={() => { }}
               />
             </div>
             <div className="text-center sm:text-left">
               <span className="text-xs font-bold text-amber-300 uppercase tracking-wider block">
                 {t('quickVoiceHeading')}
               </span>
-              <p className="text-sm font-semibold text-white">
-                {t('quickVoiceSub')}
-              </p>
+              <p className="text-sm font-semibold text-white">{t('quickVoiceSub')}</p>
             </div>
           </div>
         </div>
 
-        {/* Decorative Tricolor Gradient Glow */}
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#FF671F]/20 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#046A38]/20 rounded-full blur-3xl pointer-events-none" />
       </div>
@@ -134,9 +90,7 @@ export default function HomePage() {
             <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
               {t('servicesHeading')}
             </h2>
-            <p className="text-xs sm:text-sm text-slate-500">
-              {t('servicesSub')}
-            </p>
+            <p className="text-xs sm:text-sm text-slate-500">{t('servicesSub')}</p>
           </div>
         </div>
 
@@ -158,13 +112,11 @@ export default function HomePage() {
                   <h3 className="font-bold text-slate-900 text-lg group-hover:text-[#FF671F] transition-colors">
                     {feat.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
-                    {feat.desc}
-                  </p>
+                  <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{feat.desc}</p>
                 </div>
 
                 <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#FF671F]">
-                  <span>{currentLanguage.code === 'en' ? 'Get Started' : 'शुरू करें'}</span>
+                  <span>{t('getStarted')}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </div>
               </Link>
@@ -178,7 +130,7 @@ export default function HomePage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-orange-100 text-[#FF671F] uppercase tracking-wider">
-              {currentLanguage.code === 'en' ? 'Verified Schemes' : 'सत्यापित योजनाएं'}
+              {t('verifiedSchemes')}
             </span>
             <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">
               {t('featuredSchemesHeading')}
@@ -189,7 +141,7 @@ export default function HomePage() {
             href="/schemes"
             className="text-xs sm:text-sm font-bold text-[#FF671F] hover:text-orange-700 flex items-center gap-1 self-start sm:self-auto"
           >
-            <span>{currentLanguage.code === 'en' ? 'View all schemes' : 'सभी 12+ योजनाएं देखें'}</span>
+            <span>{t('viewAllSchemes')}</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -214,44 +166,30 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Trust & Acceptance Criteria Badges */}
+      {/* Trust Badges */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs">
           <Globe className="w-6 h-6 text-[#FF671F] mx-auto mb-1.5" />
-          <h4 className="font-extrabold text-slate-900 text-sm">
-            {currentLanguage.code === 'en' ? '13+ Languages' : '13+ भाषाएं'}
-          </h4>
-          <p className="text-[11px] text-slate-500">
-            {currentLanguage.code === 'en' ? 'Hindi, English, Telugu, Tamil, Bengali' : 'हिंदी, अंग्रेजी, तेलुगु, तमिल, बांग्ला'}
-          </p>
+          <h4 className="font-extrabold text-slate-900 text-sm">{t('badgeLangTitle')}</h4>
+          <p className="text-[11px] text-slate-500">{t('badgeLangDesc')}</p>
         </div>
 
         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs">
           <ShieldCheck className="w-6 h-6 text-emerald-600 mx-auto mb-1.5" />
-          <h4 className="font-extrabold text-slate-900 text-sm">Zero Hallucination</h4>
-          <p className="text-[11px] text-slate-500">
-            {currentLanguage.code === 'en' ? '100% Grounded in Official Data' : '100% आधिकारिक डेटा से सत्यापित'}
-          </p>
+          <h4 className="font-extrabold text-slate-900 text-sm">{t('badgeZeroTitle')}</h4>
+          <p className="text-[11px] text-slate-500">{t('badgeZeroDesc')}</p>
         </div>
 
         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs">
           <Cpu className="w-6 h-6 text-blue-600 mx-auto mb-1.5" />
-          <h4 className="font-extrabold text-slate-900 text-sm">
-            {currentLanguage.code === 'en' ? 'Aadhaar Privacy' : 'आधार गोपनीयता'}
-          </h4>
-          <p className="text-[11px] text-slate-500">
-            {currentLanguage.code === 'en' ? 'Auto XXXX-XXXX-1234 Masking' : 'स्वतः XXXX-XXXX-1234 मास्किंग'}
-          </p>
+          <h4 className="font-extrabold text-slate-900 text-sm">{t('badgeAadhaarTitle')}</h4>
+          <p className="text-[11px] text-slate-500">{t('badgeAadhaarDesc')}</p>
         </div>
 
         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs">
           <Layers className="w-6 h-6 text-purple-600 mx-auto mb-1.5" />
-          <h4 className="font-extrabold text-slate-900 text-sm">
-            {currentLanguage.code === 'en' ? 'Offline PWA' : 'ऑफलाइन PWA'}
-          </h4>
-          <p className="text-[11px] text-slate-500">
-            {currentLanguage.code === 'en' ? 'IndexedDB Local Storage' : 'IndexedDB स्थानीय कैशिंग'}
-          </p>
+          <h4 className="font-extrabold text-slate-900 text-sm">{t('badgeOfflineTitle')}</h4>
+          <p className="text-[11px] text-slate-500">{t('badgeOfflineDesc')}</p>
         </div>
       </div>
     </div>
